@@ -1,0 +1,8 @@
+TARGETNAME=netkiller
+TARGETPATH=Debug
+TARGETTYPE=DRIVER
+
+SOURCES=irp.c	\
+	kernel.c 	\
+	net_irp.c	\
+	util.c
