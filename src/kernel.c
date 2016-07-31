@@ -34,6 +34,8 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 	if (!NT_SUCCESS(result))
 		goto drv_exit;
 
+	result = InitProcessNotify();
+	
 drv_exit:
 	if (!NT_SUCCESS(result))
 		DriverUnload(DriverObject);

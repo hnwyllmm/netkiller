@@ -5,4 +5,5 @@ TARGETTYPE=DRIVER
 SOURCES=irp.c	\
 	kernel.c 	\
 	net_irp.c	\
+	process.c	\
 	util.c

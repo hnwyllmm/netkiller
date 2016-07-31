@@ -3,8 +3,6 @@
 
 NTSTATUS IrpPassThough(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 {
-	PAGED_CODE();
-
 	if (!IsMyDevice(DeviceObject))
 	{
 		Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
@@ -27,8 +25,6 @@ NTSTATUS IrpPassThough(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 
 NTSTATUS IrpDeviceControl(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 {
-	PAGED_CODE();
-
 	if (!IsMyDevice(DeviceObject))
 	{
 		Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
@@ -51,8 +47,6 @@ NTSTATUS IrpDeviceControl(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 }
 NTSTATUS IrpInternalDeviceControl(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 {
-	PAGED_CODE();
-
 	if (!IsMyDevice(DeviceObject))
 	{
 		Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
@@ -64,7 +58,7 @@ NTSTATUS IrpInternalDeviceControl(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 
 	if (DeviceObject != g_objNetKiller)
 	{
-		return IrpNetCreate(DeviceObject, Irp);	
+		return IrpNetInternalDeviceControl(DeviceObject, Irp);
 	}
 
 	Irp->IoStatus.Status = STATUS_SUCCESS;
@@ -76,8 +70,6 @@ NTSTATUS IrpInternalDeviceControl(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 
 NTSTATUS IrpCreate(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 {
-	PAGED_CODE();
-
 	DbgPrint(NK_DRIVER_NAME ": irp create\n");
 	if (!IsMyDevice(DeviceObject))
 	{
@@ -90,7 +82,7 @@ NTSTATUS IrpCreate(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 
 	if (DeviceObject != g_objNetKiller)
 	{
-		return CallAttachedDevice(DeviceObject, Irp);	
+		return IrpNetCreate(DeviceObject, Irp);
 	}
 	
 	if (KeGetCurrentIrql() > PASSIVE_LEVEL)
@@ -109,8 +101,6 @@ NTSTATUS IrpCreate(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 
 NTSTATUS IrpCleanup(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 {
-	PAGED_CODE();
-
 	if (!IsMyDevice(DeviceObject))
 	{
 		Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
